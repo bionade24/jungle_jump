@@ -27,9 +27,6 @@ public class Game extends JPanel{
     public static final double INIT_SPEED = GameWindow.getInstance().getHeight()/-100.d;
     public static final double SPEED_DECREASE = 1.006;
     public static final double GROUND_HEIGHT = GameWindow.getInstance().getHeight()*0.4;
-    private enum playerDirection {
-        LEFT, ZERO, RIGHT
-    }
     private boolean isRunning;
     private Timer t; // Game loop timer
     private BufferedImage backgroundImage;
