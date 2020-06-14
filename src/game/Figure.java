@@ -1,6 +1,9 @@
 package game;
 
 import java.awt.image.BufferedImage;
+
+import window.GameWindow;
+
 import java.awt.*;
 
 public class Figure extends GameObject {
@@ -24,6 +27,13 @@ public class Figure extends GameObject {
     @Override
     protected void moveGameObject() {
         this.objectPosition.x += xSpeed;
+        if(this.objectPosition.x > GameWindow.getInstance().getWidth()) {
+            this.objectPosition.x = -this.getWidth();
+        } else {
+            if (this.objectPosition.x < -this.getWidth()) {
+                this.objectPosition.x = GameWindow.getInstance().getWidth();
+            }
+        }
         if(this.ySpeed == 0) {
             return;
         } else {
