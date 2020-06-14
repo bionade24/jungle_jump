@@ -135,6 +135,8 @@ public class Game extends JPanel{
     }
 
     private void jump() {
-        playerFigure.setYSpeed(INIT_SPEED);
+        if (playerFigure.getYSpeed() == 0) {
+            playerFigure.setYSpeed(INIT_SPEED);
+        }
     }
 }
