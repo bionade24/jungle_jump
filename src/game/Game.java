@@ -90,7 +90,7 @@ public class Game extends JPanel{
         return new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            actionPerformed.accept(e);
+                actionPerformed.accept(e);
             }
       };
     };
