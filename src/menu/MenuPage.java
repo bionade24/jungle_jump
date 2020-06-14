@@ -2,16 +2,8 @@ package menu;
 
 import java.awt.*;
 import javax.swing.JPanel;
-import javax.swing.plaf.DimensionUIResource;
-
 import components.AdvancedButton;
-
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import window.GameWindow;
 
@@ -23,8 +15,6 @@ public class MenuPage extends JPanel {
 
     public MenuPage() {
 
-        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
         startButton = new AdvancedButton("Start Game", 1.f);
         settingsButton = new AdvancedButton("Settings", 1.f);
         quitButton = new AdvancedButton("Quit", 1.f);
@@ -32,8 +22,23 @@ public class MenuPage extends JPanel {
         //Use one central ActionListener in ../window/GameWindow.java
         startButton.addActionListener(GameWindow.getInstance());
         settingsButton.addActionListener(GameWindow.getInstance());
-        this.add(startButton);
-        this.add(settingsButton);
-        this.add(quitButton);
+
+        this.setLayout(new GridLayout(1, 3));
+        JButton t1 = new JButton();
+        t1.setVisible(true);
+        this.add(t1);
+
+        JPanel p2 = new JPanel();
+        p2.setLayout(new GridLayout(3, 1, 0, 20));
+        p2.add(startButton);
+        p2.add(settingsButton);
+        p2.add(quitButton);
+
+        this.add(p2);
+
+        JButton t2 = new JButton();
+        t2.setVisible(false);
+
+        this.add(t2);
     }
 }
