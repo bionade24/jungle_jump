@@ -15,6 +15,8 @@ import javax.swing.Timer;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import window.GameWindow;
@@ -31,15 +33,18 @@ public class Game extends JPanel{
     private Timer t; // Game loop timer
     private BufferedImage backgroundImage;
     private BufferedImage playerImage;
+    private List<BufferedImage> gObjectImages = new LinkedList<BufferedImage>();
 
     // Game objects
     private Figure playerFigure;
+    private List<GameObject> gameObjects = new LinkedList<GameObject>();
 
 
     public Game() {
 
         // load pictures
         try {
+            gObjectImages.add(ImageIO.read(new File("graphics/wooden_hurdle.png")));
             backgroundImage = ImageIO.read(new File("graphics/Dschungel.png"));
             playerImage = ImageIO.read(new File("graphics/Affe.png"));
         } catch (IOException e) {
@@ -78,6 +83,7 @@ public class Game extends JPanel{
         actionMap.put("right released", action(a -> playerFigure.setXSpeed(0)));
 
         playerFigure = new Figure(new Coordinate(0, GROUND_HEIGHT), 3200/8, 4267/8, 0, 2, playerImage);
+        gameObjects.add(new Hurdle(new Coordinate(400, GROUND_HEIGHT + 80), 1138/2, 692/2, gObjectImages.get(0)));
 
         this.setVisible(true);
         startGame();
@@ -118,6 +124,10 @@ public class Game extends JPanel{
         g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
 
         playerFigure.paintMe(g2d);
+
+        for (GameObject i : gameObjects) {
+            i.paintMe(g2d);
+        }
     }
 
     private void openIngameMenu() {
@@ -129,6 +139,10 @@ public class Game extends JPanel{
         //System.out.println("Tick");
         this.repaint();
         playerFigure.makeMove();
+        if(playerFigure.touches(gameObjects.get(0))) {
+            this.stopGame();
+            //TODO: Message for hit
+        }
     }
 
     private void jump() {
