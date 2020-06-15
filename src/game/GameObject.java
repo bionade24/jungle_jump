@@ -79,15 +79,7 @@ public abstract class GameObject {
         this.ySpeed = ySpeed;
         this.objectPosition = position;
     }
-/*
-    public void xScrollObject(double speed){
-        objectPosition.setX(objectPosition.getX()+ speed);
-    }
 
-    public void yScrollObject(double speed){
-        objectPosition.setY(objectPosition.getY()+ speed);
-    }
-*/
     public boolean isLeftOf(GameObject that) {
         return this.getObjectPosition().x + this.getWidth() < that.getObjectPosition().x;
     }
