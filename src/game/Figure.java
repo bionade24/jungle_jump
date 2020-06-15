@@ -1,27 +1,14 @@
 package game;
 
 import java.awt.image.BufferedImage;
-
 import window.GameWindow;
 
-import java.awt.*;
-
 public class Figure extends GameObject {
-
-    private Image playerImage;
 
     public Figure(Coordinate position, double witdth, double height, double movingAngle,
      double movingDistance, BufferedImage img) {
 
-        super(position, witdth, height);
-        this.playerImage = img;
-    }
-
-    @Override
-    public void paintMe(Graphics2D g2d) {
-        g2d.drawImage(playerImage, (int)this.getObjectPosition().x,
-         (int)this.getObjectPosition().y,
-         (int)this.getWidth(), (int)this.getHeight(), null);
+        super(position, witdth, height, img);
     }
 
     @Override

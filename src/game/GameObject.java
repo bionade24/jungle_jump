@@ -1,16 +1,21 @@
 package game;
 
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+
 public abstract class GameObject {
     protected Coordinate objectPosition;
     private double width;
     private double height;
     protected double xSpeed;
     protected double ySpeed;
+    private BufferedImage image;
 
-    public GameObject(Coordinate objectPosition, double width, double height) {
+    public GameObject(Coordinate objectPosition, double width, double height, BufferedImage image) {
         this.objectPosition = objectPosition;
         this.width = width;
         this.height = height;
+        this.image = image;
         xSpeed = 0.d;
         ySpeed = 0.d;
     }
@@ -100,5 +105,9 @@ public abstract class GameObject {
         return true;
     }
 
-    protected abstract void paintMe(java.awt.Graphics2D g2d);
+    public void paintMe(Graphics2D g2d) {
+        g2d.drawImage(this.image, (int)this.getObjectPosition().x,
+         (int)this.getObjectPosition().y,
+         (int)this.getWidth(), (int)this.getHeight(), null);
+    }
 }
