@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.event.*;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -31,6 +32,7 @@ public class Game extends JPanel{
     public static final double GROUND_HEIGHT = GameWindow.getInstance().getHeight()*0.4;
     private boolean isRunning;
     private Timer t; // Game loop timer
+    private int lifes;
     private BufferedImage backgroundImage;
     private BufferedImage playerImage;
     private List<BufferedImage> gObjectImages = new LinkedList<BufferedImage>();
@@ -41,6 +43,8 @@ public class Game extends JPanel{
 
 
     public Game() {
+
+        lifes = 3;
 
         // load pictures
         try {
@@ -122,6 +126,8 @@ public class Game extends JPanel{
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
+        g2d.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+        g2d.drawString(String.format("Lifes: %d", lifes), (int)(this.getWidth()*0.7), this.getHeight()/10);
 
         playerFigure.paintMe(g2d);
 
