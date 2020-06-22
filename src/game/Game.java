@@ -87,7 +87,8 @@ public class Game extends JPanel{
         actionMap.put("right released", action(a -> playerFigure.setXSpeed(0)));
 
         playerFigure = new Figure(new Coordinate(0, GROUND_HEIGHT), 3200/8, 4267/8, 0, 2, playerImage);
-        gameObjects.add(new Hurdle(new Coordinate(400, GROUND_HEIGHT + 80), 1138/2, 692/2, gObjectImages.get(0)));
+        gameObjects.add(new Hurdle(new Coordinate(600, GROUND_HEIGHT + 80), 1138/2, 692/2, gObjectImages.get(0)));
+        gameObjects.get(0).setXSpeed(5);
 
         this.setVisible(true);
         startGame();
@@ -145,9 +146,18 @@ public class Game extends JPanel{
         //System.out.println("Tick");
         this.repaint();
         playerFigure.makeMove();
-        if(playerFigure.touches(gameObjects.get(0))) {
-            this.stopGame();
-            //TODO: Message for hit
+        for (GameObject i : gameObjects) {
+            i.makeMove();;
+        }
+        if (playerFigure.touches(gameObjects.get(0))) {
+            //this.stopGame();
+            lifes -= 1;
+        }
+
+        for (GameObject i : gameObjects) {
+            if (i.getObjectPosition().x + i.getWidth() < 0) {
+                i.spawn();
+            }
         }
     }
 
