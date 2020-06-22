@@ -1,6 +1,9 @@
 package game;
 
 import java.awt.image.BufferedImage;
+
+import window.GameWindow;
+
 import java.awt.Graphics2D;
 
 public abstract class GameObject {
@@ -78,6 +81,10 @@ public abstract class GameObject {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.objectPosition = position;
+    }
+
+    public void spawn() {
+        this.getObjectPosition().x = GameWindow.getInstance().getWidth() + this.width;
     }
 
     public boolean isLeftOf(GameObject that) {
