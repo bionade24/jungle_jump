@@ -29,7 +29,8 @@ public class Game extends JPanel{
     private static final int DELAY = 1000/60;
     public static final double INIT_SPEED = GameWindow.getInstance().getHeight()/-100.d;
     public static final double SPEED_DECREASE = 1.006;
-    public static final double GROUND_HEIGHT = GameWindow.getInstance().getHeight()*0.4;
+    //TODO:Get Width of image instead of doing this.
+    public static final double GROUND_HEIGHT = Math.pow(GameWindow.getInstance().getHeight(), 2)/1920.d*0.7;
     private boolean isRunning;
     private Timer t; // Game loop timer
     private int lifes;
