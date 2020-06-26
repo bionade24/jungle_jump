@@ -13,30 +13,28 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
 import javax.swing.Timer;
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 
 import window.GameWindow;
+import components.Helper;
 
 
 public class Game extends JPanel{
 
     // Game class internal attributes
-    private static final int DELAY = 1000/60;
-    public static final double INIT_SPEED = GameWindow.getInstance().getHeight()/-100.d;
-    public static final double SPEED_DECREASE = 1.006;
-    //TODO:Get Width of image instead of doing this.
-    public static final double GROUND_HEIGHT = Math.pow(GameWindow.getInstance().getHeight(), 2)/1920.d*0.7;
     private boolean isRunning;
     private Timer t; // Game loop timer
     private int lifes;
-    private BufferedImage backgroundImage;
+    private static BufferedImage backgroundImage = Helper.getImage("graphics/Dschungel.png", 2560);
     private BufferedImage playerImage;
     private List<BufferedImage> gObjectImages = new LinkedList<BufferedImage>();
+
+    private static final int DELAY = 1000/60;
+    public static final double INIT_SPEED = GameWindow.getInstance().getHeight()/-100.d;
+    public static final double SPEED_DECREASE = 1.006;
+    public static final double GROUND_HEIGHT = Math.pow(GameWindow.getInstance().getHeight(), 2)/backgroundImage.getHeight()*0.7;
 
     // Game objects
     private Figure playerFigure;
@@ -48,13 +46,8 @@ public class Game extends JPanel{
         lifes = 3;
 
         // load pictures
-        try {
-            gObjectImages.add(ImageIO.read(new File("graphics/wooden_hurdle.png")));
-            backgroundImage = ImageIO.read(new File("graphics/Dschungel.png"));
-            playerImage = ImageIO.read(new File("graphics/Affe.png"));
-        } catch (IOException e) {
-            System.err.println(e);
-        }
+        gObjectImages.add(Helper.getImage("graphics/wooden_hurdle.png", 1920));
+        playerImage = Helper.getImage("graphics/Affe.png", 1920);
 
         t = new Timer(DELAY, new ActionListener() {
             @Override
