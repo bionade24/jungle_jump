@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 
 public abstract class GameObject {
     protected Coordinate objectPosition;
+    protected Coordinate prevPosition;
     private double width;
     private double height;
     protected double xSpeed;
@@ -16,6 +17,7 @@ public abstract class GameObject {
 
     public GameObject(Coordinate objectPosition, double width, double height, BufferedImage image) {
         this.objectPosition = objectPosition;
+        this.prevPosition = this.objectPosition;
         this.width = width;
         this.height = height;
         this.image = image;
@@ -27,8 +29,8 @@ public abstract class GameObject {
         return objectPosition;
     }
 
-    public void setObjectPosition(Coordinate objectPosition) {
-        this.objectPosition = objectPosition;
+    public void setObjectPosition(Coordinate position) {
+        this.objectPosition = position;
     }
 
     public double getWidth() {
@@ -64,8 +66,10 @@ public abstract class GameObject {
     }
 
     protected void moveGameObject() {
-        objectPosition.x += xSpeed;
-        objectPosition.y += ySpeed;
+        prevPosition = objectPosition;
+        //TODO: Will GameObjects always move backwards?
+        this.objectPosition.x -= xSpeed;
+        this.objectPosition.y -= ySpeed;
     }
 
     //Overloaded method makeMove()
@@ -104,9 +108,10 @@ public abstract class GameObject {
         return true;
     }
 
-    public void paintMe(Graphics2D g2d) {
-        g2d.drawImage(this.image, (int)this.getObjectPosition().x,
-         (int)this.getObjectPosition().y,
+    public void paintMe(Graphics2D g2d, double interpolation) {
+        //Interpolate points between prevPosition and objectPosition. Add step to prevPosition.n each time.
+        g2d.drawImage(this.image, (int)(prevPosition.x += (objectPosition.x - prevPosition.x) *interpolation),
+         (int)(prevPosition.y += (objectPosition.y - prevPosition.y) *interpolation),
          (int)this.getWidth(), (int)this.getHeight(), null);
     }
 }

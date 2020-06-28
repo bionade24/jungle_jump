@@ -12,7 +12,6 @@ import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
-import javax.swing.Timer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -25,13 +24,13 @@ public class Game extends JPanel{
 
     // Game class internal attributes
     private boolean isRunning;
-    private Timer t; // Game loop timer
+    private GameLoop gl; // Game loop
+    private double interpolation;
     private int lifes;
     private static BufferedImage backgroundImage = Helper.getImage("graphics/Dschungel.png", 2560);
     private BufferedImage playerImage;
     private List<BufferedImage> gObjectImages = new LinkedList<BufferedImage>();
 
-    private static final int DELAY = 1000/60;
     public static final double INIT_SPEED = GameWindow.getInstance().getHeight()/-100.d;
     public static final double SPEED_DECREASE = 1.006;
     public static final double GROUND_HEIGHT = Math.pow(GameWindow.getInstance().getHeight(), 2)/backgroundImage.getHeight()*0.7;
@@ -49,12 +48,7 @@ public class Game extends JPanel{
         gObjectImages.add(Helper.getImage("graphics/wooden_hurdle.png", 1920));
         playerImage = Helper.getImage("graphics/Affe.png", 1920);
 
-        t = new Timer(DELAY, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                doTick();
-            }
-        });
+        gl = new GameLoop();
 
         InputMap inputMap = this.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
         ActionMap actionMap = this.getActionMap();
@@ -99,8 +93,8 @@ public class Game extends JPanel{
 
     private void startGame() {
         if (!isRunning) {
-            t.start();
             isRunning = true;
+            gl.runGameLoop();
         } else {
             throw new RuntimeException("Game is already running");
         }
@@ -108,11 +102,15 @@ public class Game extends JPanel{
 
     private void stopGame() {
         if (isRunning) {
-            t.stop();
             isRunning = false;
         } else {
             throw new RuntimeException("Game does not run");
         }
+    }
+
+    public void drawGame(double interpolation) {
+        this.setInterpolation(interpolation);
+        this.repaint();
     }
 
     @Override
@@ -124,10 +122,10 @@ public class Game extends JPanel{
         g2d.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
         g2d.drawString(String.format("Lifes: %d", lifes), (int)(this.getWidth()*0.7), this.getHeight()/10);
 
-        playerFigure.paintMe(g2d);
+        playerFigure.paintMe(g2d, this.interpolation);
 
         for (GameObject i : gameObjects) {
-            i.paintMe(g2d);
+            i.paintMe(g2d, this.interpolation);
         }
     }
 
@@ -138,7 +136,6 @@ public class Game extends JPanel{
     private void doTick() {
         // run the game
         //System.out.println("Tick");
-        this.repaint();
         playerFigure.makeMove();
         for (GameObject i : gameObjects) {
             i.makeMove();;
@@ -159,5 +156,96 @@ public class Game extends JPanel{
         if (playerFigure.getYSpeed() == 0) {
             playerFigure.setYSpeed(INIT_SPEED);
         }
+    }
+
+    private void setInterpolation(double i) {
+        this.interpolation = i;
+    }
+
+    public double getInterpolation() {
+        return this.interpolation;
+    }
+    class GameLoop {
+       private int frameCount = 0;
+
+       //Starts a new thread and runs the game loop in it.
+       public void runGameLoop()
+       {
+          Thread loop = new Thread()
+          {
+             public void run()
+             {
+                gameLoop();
+             }
+          };
+          loop.start();
+       }
+
+       //Only run this in another Thread!
+       private void gameLoop()
+       {
+          //This value would probably be stored elsewhere.
+          final double GAME_HERTZ = 40.d;
+          //Calculate how many ns each frame should take for our target game hertz.
+          final double TIME_BETWEEN_UPDATES = 1000000000 / GAME_HERTZ;
+          //At the very most we will update the game this many times before a new render.
+          //If you're worried about visual hitches more than perfect timing, set this to 1.
+          final int MAX_UPDATES_BEFORE_RENDER = 5;
+          //We will need the last update time.
+          double lastUpdateTime = System.nanoTime();
+          //Store the last time we rendered.
+          double lastRenderTime = System.nanoTime();
+
+          //If we are able to get as high as this FPS, don't render again.
+          final double TARGET_FPS = 60;
+          final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS;
+
+          int lastSecondTime = (int) (lastUpdateTime / 1000000000);
+
+          double now;
+          int updateCount;
+
+          while (isRunning)
+          {
+             now = System.nanoTime();
+             updateCount = 0;
+             //Do as many game updates as we need to, potentially playing catchup.
+             while( now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER )
+             {
+                doTick();
+                lastUpdateTime += TIME_BETWEEN_UPDATES;
+                updateCount++;
+             }
+             //If for some reason an update takes forever, we don't want to do an insane number of catchups.
+             //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
+             if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
+             {
+                lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+             }
+             //Render. To do so, we need to calculate interpolation for a smooth render.
+             float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
+             drawGame(interpolation);
+             lastRenderTime = now;
+             frameCount++;
+             //Update the frames we got.
+             int thisSecond = (int) (lastUpdateTime / 1000000000);
+             if (thisSecond > lastSecondTime)
+             {
+                System.out.println("NEW SECOND " + thisSecond + " " + frameCount + " " + updateCount + " " + interpolation);
+                frameCount = 0;
+                lastSecondTime = thisSecond;
+             }
+             //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
+             while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES)
+             {
+                Thread.yield();
+                //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
+                //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
+                //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
+                try {Thread.sleep(1);} catch(Exception e) {}
+                now = System.nanoTime();
+             }
+          }
+       }
     }
 }

@@ -13,6 +13,7 @@ public class Figure extends GameObject {
 
     @Override
     protected void moveGameObject() {
+        this.prevPosition = objectPosition;
         this.objectPosition.x += xSpeed;
         if(this.objectPosition.x > GameWindow.getInstance().getWidth()) {
             this.objectPosition.x = -this.getWidth();
