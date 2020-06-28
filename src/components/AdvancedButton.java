@@ -41,7 +41,7 @@ public class AdvancedButton extends JButton {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(buttonImage, 0, 0, this.getWidth(), this.getHeight(), null);
         g2d.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
-        g2d.drawString(this.label, this.getWidth()/2, this.getHeight()/2);
+        g2d.drawString(this.label, this.getWidth()/3, this.getHeight()/2);
     }
 
     @Override
