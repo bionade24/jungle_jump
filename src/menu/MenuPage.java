@@ -25,7 +25,7 @@ public class MenuPage extends JPanel {
 
         this.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
-        t1.setVisible(true);
+        t1.setVisible(false);
         this.add(t1);
 
         JPanel p2 = new JPanel();
