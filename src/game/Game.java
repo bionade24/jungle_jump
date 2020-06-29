@@ -40,6 +40,11 @@ public class Game extends JLayeredPane {
     private Figure playerFigure;
     private List<GameObject> gameObjects = new LinkedList<GameObject>();
 
+    // Ingame menu buttons
+    public AdvancedButton menuButton;
+    private AdvancedButton resumeButton;
+    public AdvancedButton quitButton;
+
     public Game() {
 
         lifes = 3;
@@ -136,9 +141,11 @@ public class Game extends JLayeredPane {
         this.stopGame();
         JLayeredPane lp = new JLayeredPane();
         lp.setSize(this.getWidth(), this.getHeight());
-        AdvancedButton menuButton = new AdvancedButton("Return to Menu", 1.f);
-        AdvancedButton resumeButton = new AdvancedButton("Resume Game", 1.f);
-        AdvancedButton quitButton = new AdvancedButton("Quit Game", 1.f);
+        menuButton = new AdvancedButton("Return to Menu", 1.f);
+        resumeButton = new AdvancedButton("Resume Game", 1.f);
+        quitButton = new AdvancedButton("Quit Game", 1.f);
+
+        menuButton.addActionListener(GameWindow.getInstance());
 
         lp.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
