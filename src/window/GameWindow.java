@@ -58,6 +58,21 @@ public class GameWindow extends JFrame implements ActionListener {
     }
 
     private void launchMenu() {
+        if (_game != null) {
+            this.remove(_game);
+            _game = null;
+        } else {
+            if (_settingspage != null) {
+                this.remove(_settingspage);
+                _settingspage = null;
+            } else {
+                throw new RuntimeException("No initialised object for descruction avaible during launch");
+            }
+        }
+        _menupage = new MenuPage();
+        this.add(_menupage);
+        this.setVisible(true);
+        this.repaint();
     }
 
     private void launchSettings() {
@@ -86,6 +101,12 @@ public class GameWindow extends JFrame implements ActionListener {
                     launchSettings();
                 } else {
                     throw new IllegalArgumentException("ActionEvent not known");
+                }
+            }
+        } else {
+            if (_game != null) {
+                if (source == _game.menuButton) {
+                    launchMenu();
                 }
             }
         }
