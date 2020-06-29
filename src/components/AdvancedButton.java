@@ -21,11 +21,11 @@ public class AdvancedButton extends JButton {
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setContentAreaFilled(false);
         loadImage();
-        super.setMaximumSize(new Dimension((int)(1564*scale*2), (int)(664*scale))); //TODO: Why the fuck * 2??
-        super.setPreferredSize(new Dimension((int)(1564*scale*2), (int)(664*scale)));
+        super.setMaximumSize(new Dimension((int) (1564 * scale * 2), (int) (664 * scale))); // TODO: Why the fuck * 2??
+        super.setPreferredSize(new Dimension((int) (1564 * scale * 2), (int) (664 * scale)));
     }
 
-    private static void loadImage() { //Use one static instance for better performance
+    private static void loadImage() { // Use one static instance for better performance
         if (buttonImage == null) {
             try {
                 buttonImage = ImageIO.read(new File("graphics/Button.png"));
@@ -41,7 +41,7 @@ public class AdvancedButton extends JButton {
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(buttonImage, 0, 0, this.getWidth(), this.getHeight(), null);
         g2d.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
-        g2d.drawString(this.label, this.getWidth()/3, this.getHeight()/2);
+        g2d.drawString(this.label, this.getWidth() / 3, this.getHeight() / 2);
     }
 
     @Override

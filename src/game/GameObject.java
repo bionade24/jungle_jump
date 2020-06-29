@@ -67,20 +67,22 @@ public abstract class GameObject {
 
     protected void moveGameObject() {
         prevPosition = objectPosition;
-        //TODO: Will GameObjects always move backwards?
+        // TODO: Will GameObjects always move backwards?
         this.objectPosition.x -= xSpeed;
         this.objectPosition.y -= ySpeed;
     }
 
-    //Overloaded method makeMove()
+    // Overloaded method makeMove()
     public void makeMove() {
         moveGameObject();
-   }
+    }
+
     public void makeMove(double xSpeed, double ySpeed) {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         moveGameObject();
     }
+
     public void makeMove(double xSpeed, double ySpeed, Coordinate position) {
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
@@ -100,18 +102,23 @@ public abstract class GameObject {
     }
 
     public boolean touches(GameObject that) {
-        if (this.isLeftOf(that)) return false;
-        if (that.isLeftOf(this)) return false;
-        if (this.isAbove(that)) return false;
-        if (that.isAbove(this)) return false;
+        if (this.isLeftOf(that))
+            return false;
+        if (that.isLeftOf(this))
+            return false;
+        if (this.isAbove(that))
+            return false;
+        if (that.isAbove(this))
+            return false;
 
         return true;
     }
 
     public void paintMe(Graphics2D g2d, double interpolation) {
-        //Interpolate points between prevPosition and objectPosition. Add step to prevPosition.n each time.
-        g2d.drawImage(this.image, (int)(prevPosition.x += (objectPosition.x - prevPosition.x) *interpolation),
-         (int)(prevPosition.y += (objectPosition.y - prevPosition.y) *interpolation),
-         (int)this.getWidth(), (int)this.getHeight(), null);
+        // Interpolate points between prevPosition and objectPosition. Add step to
+        // prevPosition.n each time.
+        g2d.drawImage(this.image, (int) (prevPosition.x += (objectPosition.x - prevPosition.x) * interpolation),
+                (int) (prevPosition.y += (objectPosition.y - prevPosition.y) * interpolation), (int) this.getWidth(),
+                (int) this.getHeight(), null);
     }
 }
