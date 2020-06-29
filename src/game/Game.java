@@ -27,13 +27,13 @@ public class Game extends JPanel{
     private GameLoop gl; // Game loop
     private double interpolation;
     private int lifes;
-    private static BufferedImage backgroundImage = Helper.getImage("graphics/Dschungel.png", 2560);
+    private static BufferedImage backgroundImage = Helper.getImage("graphics/Dschungel.png", GameWindow.getInstance().getWidth());
     private BufferedImage playerImage;
     private List<BufferedImage> gObjectImages = new LinkedList<BufferedImage>();
 
     public static final double INIT_SPEED = GameWindow.getInstance().getHeight()/-100.d;
     public static final double SPEED_DECREASE = 1.006;
-    public static final double GROUND_HEIGHT = Math.pow(GameWindow.getInstance().getHeight(), 2)/backgroundImage.getHeight()*0.7;
+    public static final double GROUND_HEIGHT = GameWindow.getInstance().getHeight()*0.6;
 
     // Game objects
     private Figure playerFigure;
@@ -45,8 +45,8 @@ public class Game extends JPanel{
         lifes = 3;
 
         // load pictures
-        gObjectImages.add(Helper.getImage("graphics/wooden_hurdle.png", 1920));
-        playerImage = Helper.getImage("graphics/Affe.png", 1920);
+        gObjectImages.add(Helper.getImage("graphics/wooden_hurdle.png", GameWindow.getInstance().getWidth()));
+        playerImage = Helper.getImage("graphics/Affe.png", GameWindow.getInstance().getWidth()/2);
 
         gl = new GameLoop();
 
@@ -74,8 +74,10 @@ public class Game extends JPanel{
         actionMap.put("right pressed", action(a -> playerFigure.setXSpeed(10)));
         actionMap.put("right released", action(a -> playerFigure.setXSpeed(0)));
 
-        playerFigure = new Figure(new Coordinate(0, GROUND_HEIGHT), 3200/8, 4267/8, 0, 2, playerImage);
-        gameObjects.add(new Hurdle(new Coordinate(600, GROUND_HEIGHT + 80), 1138/2, 692/2, gObjectImages.get(0)));
+        playerFigure = new Figure(new Coordinate(0, GROUND_HEIGHT), playerImage.getWidth()/4,
+         playerImage.getHeight()/4, 0, 2, playerImage);
+        gameObjects.add(new Hurdle(new Coordinate(600, GROUND_HEIGHT), gObjectImages.get(0).getWidth()/4,
+         gObjectImages.get(0).getHeight()/4, gObjectImages.get(0)));
         gameObjects.get(0).setXSpeed(5);
 
         this.setVisible(true);
@@ -205,8 +207,7 @@ public class Game extends JPanel{
           double now;
           int updateCount;
 
-          while (isRunning)
-          {
+          while (isRunning) {
              now = System.nanoTime();
              updateCount = 0;
              //Do as many game updates as we need to, potentially playing catchup.
