@@ -1,14 +1,15 @@
 package game;
 
+import java.awt.*;
 import java.awt.event.*;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.*;
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.InputMap;
+import javax.swing.JButton;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
@@ -17,10 +18,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import window.GameWindow;
+import components.AdvancedButton;
 import components.Helper;
 
-public class Game extends JPanel {
-
+public class Game extends JLayeredPane {
     // Game class internal attributes
     private boolean isRunning;
     private GameLoop gl; // Game loop
@@ -132,6 +133,35 @@ public class Game extends JPanel {
 
     private void openIngameMenu() {
         System.out.println("Ingame Menu opened");
+        this.stopGame();
+        JLayeredPane lp = new JLayeredPane();
+        lp.setSize(this.getWidth(), this.getHeight());
+        AdvancedButton menuButton = new AdvancedButton("Return to Menu", 1.f);
+        AdvancedButton resumeButton = new AdvancedButton("Resume Game", 1.f);
+        AdvancedButton quitButton = new AdvancedButton("Quit Game", 1.f);
+
+        lp.setLayout(new GridLayout(1, 3));
+        JButton t1 = new JButton();
+        t1.setVisible(false);
+        lp.add(t1);
+
+        JLayeredPane p2 = new JLayeredPane();
+        p2.setLayout(new GridLayout(3, 1, 0, 5));
+        p2.add(menuButton);
+        p2.add(resumeButton);
+        p2.add(quitButton);
+
+        lp.add(p2);
+
+        JButton t2 = new JButton();
+        t2.setVisible(false);
+
+        lp.add(t2);
+
+        this.add(lp);
+        this.invalidate();
+        this.revalidate();
+        this.repaint();
     }
 
     private void doTick() {
