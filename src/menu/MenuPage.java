@@ -22,6 +22,7 @@ public class MenuPage extends JPanel {
         // Use one central ActionListener in ../window/GameWindow.java
         startButton.addActionListener(GameWindow.getInstance());
         settingsButton.addActionListener(GameWindow.getInstance());
+        quitButton.addActionListener(GameWindow.getInstance());
 
         this.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
