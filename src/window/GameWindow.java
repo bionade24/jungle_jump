@@ -30,6 +30,7 @@ public class GameWindow extends JFrame implements ActionListener {
         _menupage = new MenuPage();
         this.add(_menupage);
 
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.resizeWindow(WindowLayout.FULLSCREEN); // Use own method instead of setExtendedState() to not rely on wm
         this.setTitle("Jump'n run game");
         this.setResizable(false);
