@@ -19,7 +19,7 @@ import window.GameWindow;
 import components.AdvancedButton;
 import components.Helper;
 
-public class Game extends JLayeredPane {
+public class Game extends JLayeredPane implements ActionListener {
     // Game class internal attributes
     private boolean isRunning;
     private GameLoop gl; // Game loop
@@ -34,14 +34,15 @@ public class Game extends JLayeredPane {
     public static final double SPEED_DECREASE = 1.006;
     public static final double GROUND_HEIGHT = GameWindow.getInstance().getHeight() * 0.6;
 
-    // Game objects
-    private Figure playerFigure;
-    private List<GameObject> gameObjects = new LinkedList<GameObject>();
-
-    // Ingame menu buttons
+    // Ingame menu
+    private JLayeredPane ingameMenu;
     public AdvancedButton menuButton;
     private AdvancedButton resumeButton;
     public AdvancedButton quitButton;
+
+    // Game objects
+    private Figure playerFigure;
+    private List<GameObject> gameObjects = new LinkedList<GameObject>();
 
     public Game() {
 
@@ -134,21 +135,32 @@ public class Game extends JLayeredPane {
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == this.resumeButton) {
+            this.remove(ingameMenu);
+            this.invalidate();
+            this.revalidate();
+            startGame();
+        }
+    }
+
     private void openIngameMenu() {
         System.out.println("Ingame Menu opened");
         this.stopGame();
-        JLayeredPane lp = new JLayeredPane();
-        lp.setSize(this.getWidth(), this.getHeight());
+        ingameMenu = new JLayeredPane();
+        ingameMenu.setSize(this.getWidth(), this.getHeight());
         menuButton = new AdvancedButton("Return to Menu", 1.f);
         resumeButton = new AdvancedButton("Resume Game", 1.f);
         quitButton = new AdvancedButton("Quit Game", 1.f);
 
         menuButton.addActionListener(GameWindow.getInstance());
+        resumeButton.addActionListener(this);
 
-        lp.setLayout(new GridLayout(1, 3));
+        ingameMenu.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
         t1.setVisible(false);
-        lp.add(t1);
+        ingameMenu.add(t1);
 
         JLayeredPane p2 = new JLayeredPane();
         p2.setLayout(new GridLayout(3, 1, 0, 5));
@@ -156,14 +168,14 @@ public class Game extends JLayeredPane {
         p2.add(resumeButton);
         p2.add(quitButton);
 
-        lp.add(p2);
+        ingameMenu.add(p2);
 
         JButton t2 = new JButton();
         t2.setVisible(false);
 
-        lp.add(t2);
+        ingameMenu.add(t2);
 
-        this.add(lp);
+        this.add(ingameMenu);
         this.invalidate();
         this.revalidate();
         this.repaint();
