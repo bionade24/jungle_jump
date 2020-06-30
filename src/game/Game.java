@@ -152,10 +152,11 @@ public class Game extends JLayeredPane implements ActionListener {
         ingameMenu.setSize(this.getWidth(), this.getHeight());
         menuButton = new AdvancedButton("Return to Menu", 1.f);
         resumeButton = new AdvancedButton("Resume Game", 1.f);
-        quitButton = new AdvancedButton("Quit Game", 1.f);
+        quitButton = new AdvancedButton("Quit", 1.f);
 
         menuButton.addActionListener(GameWindow.getInstance());
         resumeButton.addActionListener(this);
+        quitButton.addActionListener(GameWindow.getInstance());
 
         ingameMenu.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
