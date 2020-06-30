@@ -188,11 +188,11 @@ public class Game extends JLayeredPane implements ActionListener {
         playerFigure.makeMove();
         for (GameObject i : gameObjects) {
             i.makeMove();
-            ;
         }
         if (playerFigure.touches(gameObjects.get(0))) {
-            // this.stopGame();
             lifes -= 1;
+            gameObjects.get(0).spawn();
+            playerFigure.spawn();
         }
 
         for (GameObject i : gameObjects) {
