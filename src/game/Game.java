@@ -82,7 +82,7 @@ public class Game extends JLayeredPane implements ActionListener {
                 playerImage.getHeight() / 4, 0, 2, playerImage);
         gameObjects.add(new Hurdle(new Coordinate(600, GROUND_HEIGHT), gObjectImages.get(0).getWidth() / 4,
                 gObjectImages.get(0).getHeight() / 4, gObjectImages.get(0)));
-        gameObjects.get(0).setXSpeed(5);
+        gameObjects.get(0).setXSpeed(-5);
 
         this.setVisible(true);
         startGame();

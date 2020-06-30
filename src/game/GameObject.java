@@ -67,9 +67,8 @@ public abstract class GameObject {
 
     protected void moveGameObject() {
         prevPosition = objectPosition;
-        // TODO: Will GameObjects always move backwards?
-        this.objectPosition.x -= xSpeed;
-        this.objectPosition.y -= ySpeed;
+        this.objectPosition.x += xSpeed;
+        this.objectPosition.y += ySpeed;
     }
 
     // Overloaded method makeMove()
@@ -90,7 +89,13 @@ public abstract class GameObject {
     }
 
     public void spawn() {
-        this.getObjectPosition().x = GameWindow.getInstance().getWidth() + this.width;
+        double position = 0.d;
+        if (xSpeed >= 0) {
+            position = this.width;
+        } else {
+            position = GameWindow.getInstance().getWidth() + this.width;
+        }
+        this.getObjectPosition().x = position;
     }
 
     public boolean isLeftOf(GameObject that) {
