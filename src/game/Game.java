@@ -3,17 +3,14 @@ package game;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.AbstractAction;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import window.GameWindow;
 import components.AdvancedButton;
@@ -73,12 +70,12 @@ public class Game extends JLayeredPane {
         inputMap.put(right_p, "right pressed");
         inputMap.put(right_r, "right released");
 
-        actionMap.put("Esc", action(a -> openIngameMenu()));
-        actionMap.put("Space", action(a -> jump()));
-        actionMap.put("left pressed", action(a -> playerFigure.setXSpeed(-10)));
-        actionMap.put("left released", action(a -> playerFigure.setXSpeed(0)));
-        actionMap.put("right pressed", action(a -> playerFigure.setXSpeed(10)));
-        actionMap.put("right released", action(a -> playerFigure.setXSpeed(0)));
+        actionMap.put("Esc", Helper.actionFactory(a -> openIngameMenu()));
+        actionMap.put("Space", Helper.actionFactory(a -> jump()));
+        actionMap.put("left pressed", Helper.actionFactory(a -> playerFigure.setXSpeed(-10)));
+        actionMap.put("left released", Helper.actionFactory(a -> playerFigure.setXSpeed(0)));
+        actionMap.put("right pressed", Helper.actionFactory(a -> playerFigure.setXSpeed(10)));
+        actionMap.put("right released", Helper.actionFactory(a -> playerFigure.setXSpeed(0)));
 
         playerFigure = new Figure(new Coordinate(0, GROUND_HEIGHT), playerImage.getWidth() / 4,
                 playerImage.getHeight() / 4, 0, 2, playerImage);
@@ -89,15 +86,6 @@ public class Game extends JLayeredPane {
         this.setVisible(true);
         startGame();
     }
-
-    static Action action(Consumer<ActionEvent> actionPerformed) {
-        return new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                actionPerformed.accept(e);
-            }
-        };
-    };
 
     private void startGame() {
         if (!isRunning) {
@@ -150,8 +138,8 @@ public class Game extends JLayeredPane {
         AdvancedButton gomenuButton = new AdvancedButton("Go to Menu");
         AdvancedButton restartButton = new AdvancedButton("Restart Game");
 
-        gomenuButton.addActionListener(action(a -> GameWindow.getInstance().launchMenu()));
-        restartButton.addActionListener(action(a -> {
+        gomenuButton.addActionListener(Helper.actionFactory(a -> GameWindow.getInstance().launchMenu()));
+        restartButton.addActionListener(Helper.actionFactory(a -> {
             this.remove(deathmessage);
             this.invalidate();
             this.revalidate();
@@ -199,14 +187,14 @@ public class Game extends JLayeredPane {
         resumeButton = new AdvancedButton("Resume Game");
         quitButton = new AdvancedButton("Quit");
 
-        menuButton.addActionListener(action(a -> GameWindow.getInstance().launchMenu()));
-        resumeButton.addActionListener(action(a -> {
+        menuButton.addActionListener(Helper.actionFactory(a -> GameWindow.getInstance().launchMenu()));
+        resumeButton.addActionListener(Helper.actionFactory(a -> {
             this.remove(ingameMenu);
             this.invalidate();
             this.revalidate();
             startGame();
         }));
-        quitButton.addActionListener(action(a -> GameWindow.getInstance().dispose()));
+        quitButton.addActionListener(Helper.actionFactory(a -> GameWindow.getInstance().dispose()));
 
         ingameMenu.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
