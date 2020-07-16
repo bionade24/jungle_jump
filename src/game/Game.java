@@ -19,7 +19,7 @@ import window.GameWindow;
 import components.AdvancedButton;
 import components.Helper;
 
-public class Game extends JLayeredPane implements ActionListener {
+public class Game extends JLayeredPane {
     // Game class internal attributes
     private boolean isRunning;
     private GameLoop gl; // Game loop
@@ -137,16 +137,6 @@ public class Game extends JLayeredPane implements ActionListener {
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.resumeButton) {
-            this.remove(ingameMenu);
-            this.invalidate();
-            this.revalidate();
-            startGame();
-        }
-    }
-
     private void showDeathMessage() {
         this.stopGame();
         deathmessage = new JPanel() {
@@ -198,7 +188,12 @@ public class Game extends JLayeredPane implements ActionListener {
         quitButton = new AdvancedButton("Quit", 1.f);
 
         menuButton.addActionListener(GameWindow.getInstance());
-        resumeButton.addActionListener(this);
+        resumeButton.addActionListener(action(a -> {
+            this.remove(ingameMenu);
+            this.invalidate();
+            this.revalidate();
+            startGame();
+        }));
         quitButton.addActionListener(GameWindow.getInstance());
 
         ingameMenu.setLayout(new GridLayout(1, 3));
