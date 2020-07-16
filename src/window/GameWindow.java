@@ -109,19 +109,6 @@ public class GameWindow extends JFrame implements ActionListener {
                     }
                 }
             }
-        } else {
-            if (_game != null) {
-                if (source == _game.menuButton) {
-                    launchMenu();
-                } else {
-                    if (source == _game.quitButton) {
-                        this.setVisible(false);
-                        this.dispose();
-                    } else {
-                        throw new IllegalArgumentException("ActionEvent not known");
-                    }
-                }
-            }
         }
     }
 }

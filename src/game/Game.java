@@ -199,14 +199,14 @@ public class Game extends JLayeredPane {
         resumeButton = new AdvancedButton("Resume Game", 1.f);
         quitButton = new AdvancedButton("Quit", 1.f);
 
-        menuButton.addActionListener(GameWindow.getInstance());
+        menuButton.addActionListener(action(a -> GameWindow.getInstance().launchMenu()));
         resumeButton.addActionListener(action(a -> {
             this.remove(ingameMenu);
             this.invalidate();
             this.revalidate();
             startGame();
         }));
-        quitButton.addActionListener(GameWindow.getInstance());
+        quitButton.addActionListener(action(a -> GameWindow.getInstance().dispose()));
 
         ingameMenu.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
