@@ -3,15 +3,17 @@ package menu;
 import java.awt.*;
 import javax.swing.JPanel;
 import components.AdvancedButton;
+import components.Helper;
+
 import javax.swing.JButton;
 
 import window.GameWindow;
 
 public class MenuPage extends JPanel {
 
-    public AdvancedButton startButton;
-    public AdvancedButton settingsButton;
-    public AdvancedButton quitButton;
+    private AdvancedButton startButton;
+    private AdvancedButton settingsButton;
+    private AdvancedButton quitButton;
 
     public MenuPage() {
 
@@ -19,10 +21,9 @@ public class MenuPage extends JPanel {
         settingsButton = new AdvancedButton("Settings");
         quitButton = new AdvancedButton("Quit");
 
-        // Use one central ActionListener in ../window/GameWindow.java
-        startButton.addActionListener(GameWindow.getInstance());
-        settingsButton.addActionListener(GameWindow.getInstance());
-        quitButton.addActionListener(GameWindow.getInstance());
+        startButton.addActionListener(Helper.actionFactory(a -> GameWindow.getInstance().launchGame()));
+        settingsButton.addActionListener(Helper.actionFactory(a -> GameWindow.getInstance().launchSettings()));
+        quitButton.addActionListener(Helper.actionFactory(a -> GameWindow.getInstance().dispose()));
 
         this.setLayout(new GridLayout(1, 3));
         JButton t1 = new JButton();
