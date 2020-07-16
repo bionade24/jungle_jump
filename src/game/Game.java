@@ -151,7 +151,19 @@ public class Game extends JLayeredPane {
         AdvancedButton restartButton = new AdvancedButton("Restart Game", 1.f);
 
         gomenuButton.addActionListener(action(a -> GameWindow.getInstance().launchMenu()));
-        restartButton.addActionListener(action(a -> restartGame()));
+        restartButton.addActionListener(action(a -> {
+            this.remove(deathmessage);
+            this.invalidate();
+            this.revalidate();
+            this.repaint();
+            deathmessage = null;
+            for (GameObject g : gameObjects) {
+                g.spawn();
+            }
+            playerFigure.spawn();
+            lifes = 3;
+            startGame();
+        }));
 
         deathmessage.setLayout(new GridLayout(3, 3));
         deathmessage.add(gomenuButton);
@@ -218,22 +230,6 @@ public class Game extends JLayeredPane {
         this.invalidate();
         this.revalidate();
         this.repaint();
-    }
-
-    private void restartGame() {
-        lifes = 3;
-        playerFigure.spawn();
-
-        for (GameObject i : gameObjects) {
-            i.spawn();
-        }
-
-        this.remove(deathmessage);
-        deathmessage = null;
-        this.invalidate();
-        this.revalidate();
-        this.repaint();
-        this.startGame();
     }
 
     private void doTick() {
