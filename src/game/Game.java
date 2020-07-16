@@ -34,6 +34,8 @@ public class Game extends JLayeredPane implements ActionListener {
     public static final double SPEED_DECREASE = 1.006;
     public static final double GROUND_HEIGHT = GameWindow.getInstance().getHeight() * 0.6;
 
+    JPanel deathmessage;
+
     // Ingame menu
     private JLayeredPane ingameMenu;
     public AdvancedButton menuButton;
@@ -145,6 +147,47 @@ public class Game extends JLayeredPane implements ActionListener {
         }
     }
 
+    private void showDeathMessage() {
+        this.stopGame();
+        deathmessage = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2d = (Graphics2D) g;
+                // g2d.drawImage()
+            }
+        };
+        deathmessage.setSize(this.getWidth(), this.getHeight());
+        AdvancedButton gomenuButton = new AdvancedButton("Go to Menu", 1.f);
+        AdvancedButton restartButton = new AdvancedButton("Restart Game", 1.f);
+
+        gomenuButton.addActionListener(action(a -> GameWindow.getInstance().launchMenu()));
+        restartButton.addActionListener(action(a -> restartGame()));
+
+        deathmessage.setLayout(new GridLayout(3, 3));
+        deathmessage.add(gomenuButton);
+        JButton t1 = new JButton();
+        t1.setVisible(false);
+        deathmessage.add(t1);
+        JButton t2 = new JButton();
+        t2.setVisible(false);
+        deathmessage.add(t2);
+        JButton t3 = new JButton();
+        t3.setVisible(false);
+        deathmessage.add(t3);
+        JButton t4 = new JButton();
+        t4.setVisible(false);
+        deathmessage.add(t4);
+        JButton t5 = new JButton();
+        t5.setVisible(false);
+        deathmessage.add(t5);
+        deathmessage.add(restartButton);
+
+        this.add(deathmessage);
+        this.invalidate();
+        this.revalidate();
+        this.repaint();
+    }
+
     private void openIngameMenu() {
         System.out.println("Ingame Menu opened");
         this.stopGame();
@@ -182,6 +225,22 @@ public class Game extends JLayeredPane implements ActionListener {
         this.repaint();
     }
 
+    private void restartGame() {
+        lifes = 3;
+        playerFigure.spawn();
+
+        for (GameObject i : gameObjects) {
+            i.spawn();
+        }
+
+        this.remove(deathmessage);
+        deathmessage = null;
+        this.invalidate();
+        this.revalidate();
+        this.repaint();
+        this.startGame();
+    }
+
     private void doTick() {
         // run the game
         // System.out.println("Tick");
@@ -191,6 +250,8 @@ public class Game extends JLayeredPane implements ActionListener {
         }
         if (playerFigure.touches(gameObjects.get(0))) {
             lifes -= 1;
+            if (lifes <= 0)
+                showDeathMessage();
             gameObjects.get(0).spawn();
             playerFigure.spawn();
         }

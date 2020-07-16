@@ -58,7 +58,7 @@ public class GameWindow extends JFrame implements ActionListener {
         }
     }
 
-    private void launchMenu() {
+    public void launchMenu() {
         if (_game != null) {
             this.remove(_game);
             _game = null;
