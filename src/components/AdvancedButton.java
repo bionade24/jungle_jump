@@ -16,13 +16,11 @@ public class AdvancedButton extends JButton {
     private static BufferedImage buttonImage;
     private String label;
 
-    public AdvancedButton(String label, Float scale) {
+    public AdvancedButton(String label) {
         this.label = label;
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setContentAreaFilled(false);
         loadImage();
-        super.setMaximumSize(new Dimension((int) (1564 * scale * 2), (int) (664 * scale))); // TODO: Why the fuck * 2??
-        super.setPreferredSize(new Dimension((int) (1564 * scale * 2), (int) (664 * scale)));
     }
 
     private static void loadImage() { // Use one static instance for better performance

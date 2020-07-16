@@ -147,8 +147,8 @@ public class Game extends JLayeredPane {
             }
         };
         deathmessage.setSize(this.getWidth(), this.getHeight());
-        AdvancedButton gomenuButton = new AdvancedButton("Go to Menu", 1.f);
-        AdvancedButton restartButton = new AdvancedButton("Restart Game", 1.f);
+        AdvancedButton gomenuButton = new AdvancedButton("Go to Menu");
+        AdvancedButton restartButton = new AdvancedButton("Restart Game");
 
         gomenuButton.addActionListener(action(a -> GameWindow.getInstance().launchMenu()));
         restartButton.addActionListener(action(a -> {
@@ -195,9 +195,9 @@ public class Game extends JLayeredPane {
         this.stopGame();
         ingameMenu = new JLayeredPane();
         ingameMenu.setSize(this.getWidth(), this.getHeight());
-        menuButton = new AdvancedButton("Return to Menu", 1.f);
-        resumeButton = new AdvancedButton("Resume Game", 1.f);
-        quitButton = new AdvancedButton("Quit", 1.f);
+        menuButton = new AdvancedButton("Return to Menu");
+        resumeButton = new AdvancedButton("Resume Game");
+        quitButton = new AdvancedButton("Quit");
 
         menuButton.addActionListener(action(a -> GameWindow.getInstance().launchMenu()));
         resumeButton.addActionListener(action(a -> {

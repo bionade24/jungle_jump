@@ -15,9 +15,9 @@ public class MenuPage extends JPanel {
 
     public MenuPage() {
 
-        startButton = new AdvancedButton("Start Game", 1.f);
-        settingsButton = new AdvancedButton("Settings", 1.f);
-        quitButton = new AdvancedButton("Quit", 1.f);
+        startButton = new AdvancedButton("Start Game");
+        settingsButton = new AdvancedButton("Settings");
+        quitButton = new AdvancedButton("Quit");
 
         // Use one central ActionListener in ../window/GameWindow.java
         startButton.addActionListener(GameWindow.getInstance());
