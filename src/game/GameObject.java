@@ -119,11 +119,27 @@ public abstract class GameObject {
         return true;
     }
 
+    public boolean isVisible() {
+        if (objectPosition.x  + getWidth() < 0) {
+            return false;
+        }
+        if (objectPosition.x > GameWindow.getInstance().getWidth()) {
+            return false;
+        }
+        if (objectPosition.y + getHeight() < 0) {
+            return false;
+        }
+
+        return true;
+    }
+
     public void paintMe(Graphics2D g2d, double interpolation) {
+        if (isVisible()) {
         // Interpolate points between prevPosition and objectPosition. Add step to
         // prevPosition.n each time.
-        g2d.drawImage(this.image, (int) (prevPosition.x += (objectPosition.x - prevPosition.x) * interpolation),
-                (int) (prevPosition.y += (objectPosition.y - prevPosition.y) * interpolation), (int) this.getWidth(),
-                (int) this.getHeight(), null);
+            g2d.drawImage(this.image, (int) (prevPosition.x += (objectPosition.x - prevPosition.x) * interpolation),
+                    (int) (prevPosition.y += (objectPosition.y - prevPosition.y) * interpolation),
+                    (int) this.getWidth(), (int) this.getHeight(), null);
+        }
     }
 }
