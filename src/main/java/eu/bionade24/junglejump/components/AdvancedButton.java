@@ -1,14 +1,14 @@
-package components;
+package eu.bionade24.junglejump.components;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JButton;
+
+import eu.bionade24.junglejump.window.GameWindow;
+
 import javax.swing.BorderFactory;
 
 public class AdvancedButton extends JButton {
@@ -25,11 +25,7 @@ public class AdvancedButton extends JButton {
 
     private static void loadImage() { // Use one static instance for better performance
         if (buttonImage == null) {
-            try {
-                buttonImage = ImageIO.read(new File("graphics/Button.png"));
-            } catch (IOException e) {
-                System.err.println(e);
-            }
+            buttonImage = Helper.getVectorGraphic("graphics/button.svg", 939.f, 417.f);
         }
     }
 

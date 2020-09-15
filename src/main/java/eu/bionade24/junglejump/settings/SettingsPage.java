@@ -1,4 +1,4 @@
-package settings;
+package eu.bionade24.junglejump.settings;
 
 import javax.swing.JPanel;
 

@@ -1,4 +1,4 @@
-package game;
+package eu.bionade24.junglejump.game;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,13 +8,14 @@ import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import java.util.LinkedList;
 import java.util.List;
 
-import window.GameWindow;
-import components.AdvancedButton;
-import components.Helper;
+import eu.bionade24.junglejump.window.GameWindow;
+import eu.bionade24.junglejump.components.AdvancedButton;
+import eu.bionade24.junglejump.components.Helper;
 
 public class Game extends JLayeredPane {
     // Game class internal attributes
@@ -22,13 +23,15 @@ public class Game extends JLayeredPane {
     private GameLoop gl; // Game loop
     private double interpolation;
     private int lifes;
-    private static BufferedImage backgroundImage = Helper.getImage("graphics/Dschungel.png",
-            GameWindow.getInstance().getWidth());
+    //private static BufferedImage backgroundImage = Helper.getImage("graphics/jungle.png",
+    //        GameWindow.getInstance().getWidth());
+    private static BufferedImage backgroundImage = Helper.getVectorGraphic("graphics/jungle.svg",
+            GameWindow.getInstance().getWidth(), 4267.f/3200.f * GameWindow.getInstance().getHeight());
     private BufferedImage playerImage;
     private List<BufferedImage> gObjectImages = new LinkedList<BufferedImage>();
 
-    public static final double INIT_SPEED = GameWindow.getInstance().getHeight() / -100.d;
-    public static final double SPEED_DECREASE = 1.006;
+    public static final double INIT_SPEED = GameWindow.getInstance().getHeight() / -80.d;
+    public static final double SPEED_DECREASE = 1.01;
     public static final double GROUND_HEIGHT = GameWindow.getInstance().getHeight() * 0.6;
 
     JPanel deathmessage;
@@ -49,7 +52,7 @@ public class Game extends JLayeredPane {
 
         // load pictures
         gObjectImages.add(Helper.getImage("graphics/wooden_hurdle.png", GameWindow.getInstance().getWidth()));
-        playerImage = Helper.getImage("graphics/Affe.png", GameWindow.getInstance().getWidth() / 2);
+        playerImage = Helper.getVectorGraphic("graphics/ape.svg", GameWindow.getInstance().getWidth()/5.f, GameWindow.getInstance().getHeight()/2.f);
 
         gl = new GameLoop();
 
@@ -115,9 +118,10 @@ public class Game extends JLayeredPane {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), null);
-        g2d.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
-        g2d.drawString(String.format("Lifes: %d", lifes), (int) (this.getWidth() * 0.7), this.getHeight() / 10);
-
+        /*JTextArea text = new JTextArea();
+        text.setForeground(Color.BLUE);
+        text.setFont(new Font(Font.MONOSPACED, Font.BOLD, 30));
+        text.setText(String.format("Lifes: %d", lifes));*/
         playerFigure.paintMe(g2d, this.interpolation);
 
         for (GameObject i : gameObjects) {
@@ -236,6 +240,13 @@ public class Game extends JLayeredPane {
         }
 
         for (GameObject i : gameObjects) {
+            if (playerFigure.touches(i)) {
+                lifes -= 1;
+                if (lifes <= 0)
+                    showDeathMessage();
+                gameObjects.get(0).spawn();
+                playerFigure.spawn();
+            }
             if (i.getObjectPosition().x + i.getWidth() < 0) {
                 i.spawn();
             }

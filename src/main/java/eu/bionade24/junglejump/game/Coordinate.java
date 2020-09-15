@@ -1,4 +1,4 @@
-package game;
+package eu.bionade24.junglejump.game;
 
 //This class is used like a C Data Struct
 public class Coordinate {

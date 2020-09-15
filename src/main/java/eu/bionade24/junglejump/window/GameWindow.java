@@ -1,12 +1,12 @@
-package window;
+package eu.bionade24.junglejump.window;
 
 import java.awt.Window;
 import java.awt.GraphicsEnvironment;
 import javax.swing.JFrame;
 
-import game.Game;
-import menu.MenuPage;
-import settings.SettingsPage;
+import eu.bionade24.junglejump.game.Game;
+import eu.bionade24.junglejump.menu.MenuPage;
+import eu.bionade24.junglejump.settings.SettingsPage;
 
 public class GameWindow extends JFrame {
 

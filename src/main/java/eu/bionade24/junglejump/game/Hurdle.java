@@ -1,4 +1,4 @@
-package game;
+package eu.bionade24.junglejump.game;
 
 import java.awt.image.BufferedImage;
 

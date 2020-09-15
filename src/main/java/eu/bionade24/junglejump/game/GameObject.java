@@ -1,8 +1,8 @@
-package game;
+package eu.bionade24.junglejump.game;
 
 import java.awt.image.BufferedImage;
 
-import window.GameWindow;
+import eu.bionade24.junglejump.window.GameWindow;
 
 import java.awt.Graphics2D;
 

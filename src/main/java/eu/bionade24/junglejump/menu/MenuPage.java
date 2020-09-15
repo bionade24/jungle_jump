@@ -1,13 +1,13 @@
-package menu;
+package eu.bionade24.junglejump.menu;
 
 import java.awt.*;
 import javax.swing.JPanel;
-import components.AdvancedButton;
-import components.Helper;
+import eu.bionade24.junglejump.components.AdvancedButton;
+import eu.bionade24.junglejump.components.Helper;
 
 import javax.swing.JButton;
 
-import window.GameWindow;
+import eu.bionade24.junglejump.window.GameWindow;
 
 public class MenuPage extends JPanel {
 
