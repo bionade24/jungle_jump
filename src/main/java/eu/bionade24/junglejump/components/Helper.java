@@ -21,7 +21,7 @@ public class Helper {
     public static BufferedImage getImage(String path, int wantedWidth) {
         BufferedImage image;
         try {
-            image = ImageIO.read(new File(path));
+            image = ImageIO.read(ClassLoader.getSystemResourceAsStream(path));
         } catch (IOException e) {
             System.err.println(e);
             return null;
@@ -35,7 +35,7 @@ public class Helper {
         imageTranscoder.addTranscodingHint(JPEGTranscoder.KEY_WIDTH, wantedWidth);
         imageTranscoder.addTranscodingHint(ImageTranscoder.KEY_HEIGHT, wantedHeight);
 
-        TranscoderInput input = new TranscoderInput(path);
+        TranscoderInput input = new TranscoderInput(ClassLoader.getSystemResourceAsStream(path));
         try {
             imageTranscoder.transcode(input, null);
         } catch (TranscoderException e) {
