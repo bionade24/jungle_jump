@@ -8,7 +8,6 @@
   <version>0.1</version>
 
   <name>junglejump</name>
-  <!-- FIXME change it to the project's website -->
   <url>http://github.com/bionade24/junglejump</url>
 
   <properties>
@@ -16,15 +15,9 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <lwjgl.version>3.2.3</lwjgl.version>
+    <joml.version>1.9.25</joml.version>
     <lwjgl.natives>natives-linux</lwjgl.natives>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>bintray</id>
-      <url>https://dl.bintray.com/</url>
-    </repository>
-  </repositories>
 
   <dependencyManagement>
     <dependencies>
@@ -71,6 +64,16 @@
 
     <dependency>
       <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-shaderc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-nanovg</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.lwjgl</groupId>
       <artifactId>lwjgl</artifactId>
       <classifier>${lwjgl.natives}</classifier>
     </dependency>
@@ -100,27 +103,27 @@
     </dependency>
 
     <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-shaderc</artifactId>
+      <classifier>${lwjgl.natives}</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.lwjgl</groupId>
+      <artifactId>lwjgl-nanovg</artifactId>
+      <classifier>${lwjgl.natives}</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>org.joml</groupId>
+      <artifactId>joml</artifactId>
+      <version>${joml.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-shade-plugin</artifactId>
       <version>3.2.4</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.xmlgraphics</groupId>
-      <artifactId>batik-codec</artifactId>
-      <version>1.13</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.xmlgraphics</groupId>
-      <artifactId>batik-transcoder</artifactId>
-      <version>1.13</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.imgscalr</groupId>
-      <artifactId>imgscalr-lib</artifactId>
-      <version>4.2</version>
     </dependency>
 
     <dependency>
