@@ -1,6 +1,9 @@
 package eu.bionade24.junglejump.game;
 
 import java.awt.image.BufferedImage;
+
+import eu.bionade24.junglejump.components.Coordinate;
+import eu.bionade24.junglejump.components.GameObject;
 import eu.bionade24.junglejump.window.GameWindow;
 
 public class Figure extends GameObject {

@@ -15,6 +15,8 @@ import java.util.List;
 
 import eu.bionade24.junglejump.window.GameWindow;
 import eu.bionade24.junglejump.components.AdvancedButton;
+import eu.bionade24.junglejump.components.Coordinate;
+import eu.bionade24.junglejump.components.GameObject;
 import eu.bionade24.junglejump.components.Helper;
 
 public class Game extends JLayeredPane {
