@@ -7,6 +7,8 @@ import eu.bionade24.junglejump.window.GameWindow;
 import java.awt.Graphics2D;
 
 public abstract class GameObject {
+
+    //phsysic properties
     protected Coordinate objectPosition;
     protected Coordinate prevPosition;
     private double width;
@@ -14,6 +16,8 @@ public abstract class GameObject {
     protected double xSpeed;
     protected double ySpeed;
     private BufferedImage image;
+
+    //graphic properties
 
     public GameObject(Coordinate objectPosition, double width, double height, BufferedImage image) {
         this.objectPosition = objectPosition;
